@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="google-adsense-account" content="ca-pub-3965836277553422">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3965836277553422" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>今日は何分早く出る？天気・曜日・五十日で出発時刻を提案｜出発時刻アドバイザー</title>
+<meta name="description" content="いつもの出発時刻と所要時間を入れると、天気（雨・雪・凍結）、曜日、五十日、連休、学校の休みから「いつもより10分早めに」と提案。車の外回り用に、1日の混みやすい時間帯と雨の時間も表示します。">
+<meta property="og:title" content="出発時刻アドバイザー｜今日は何分早く出る？">
+<meta property="og:description" content="天気・曜日・五十日・連休から、いつもより何分早く出ればいいかを提案。外回りの時間帯チェックにも。">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://shuppatsu.hibitool.com/">
+<meta property="og:url" content="https://shuppatsu.hibitool.com/">
+<meta name="theme-color" content="#1d2b4a">
+<link rel="icon" href="favicon-48.png" sizes="48x48" type="image/png">
+<link rel="icon" href="favicon-192.png" sizes="192x192" type="image/png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"出発時刻アドバイザー","applicationCategory":"TravelApplication","operatingSystem":"Any","url":"https://shuppatsu.hibitool.com/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"天気・曜日・五十日・連休から、いつもより何分早く出ればいいかを提案する。"}
+</script>
+<style>
+:root{
+  --bg:#eef0f3; --paper:#fff; --ink:#1b2333; --sub:#5b6577; --line:#d5d9e0;
+  --navy:#1d2b4a; --sign:#f2c230; --go:#2c8a57; --warn:#d9822b; --stop:#c63d2f; --rain:#3d6fd1;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:500;line-height:1.6}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{background:var(--navy);color:#fff;border-bottom:6px solid var(--sign)}
+header.top .wrap{display:flex;align-items:center;gap:12px;padding-top:14px;padding-bottom:14px}
+header.top svg{width:42px;height:42px;flex:none}
+header.top h1{margin:0;font-size:22px;font-weight:900;letter-spacing:.04em}
+header.top small{display:block;font-size:12px;opacity:.8;font-weight:500}
+.settings{background:var(--paper);border:1px solid var(--line);border-radius:4px;margin:18px 0;padding:12px 16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 16px;align-items:end}
+@media (max-width:760px){.settings{grid-template-columns:1fr 1fr}}
+.settings label{font-size:12px;color:var(--sub);display:block}
+.settings input,.settings select{font:inherit;font-size:16px;width:100%;padding:7px 8px;border:1px solid #b9c0cc;border-radius:4px;background:#fff;color:var(--ink);margin-top:2px}
+.seg{display:flex;margin-top:2px;border:1px solid #b9c0cc;border-radius:4px;overflow:hidden}
+.seg button{flex:1;font:inherit;font-size:14px;padding:7px 2px;border:0;background:#fff;color:var(--ink);cursor:pointer}
+.seg button+button{border-left:1px solid #b9c0cc}
+.seg button.on{background:var(--navy);color:#fff;font-weight:700}
+.status{padding:24px 0;text-align:center;color:var(--sub)}
+.cards{display:grid;grid-template-columns:1fr;gap:18px}
+@media (min-width:860px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.card .head{display:flex;justify-content:space-between;align-items:baseline;padding:10px 16px;background:#f6f7f9;border-bottom:1px solid var(--line);font-size:14px;color:var(--sub)}
+.card .head b{color:var(--ink);font-size:17px}
+.card .head .tag{font-size:12px;background:var(--navy);color:#fff;padding:1px 8px;border-radius:3px}
+.big{padding:16px 16px 8px;display:flex;gap:16px;align-items:center}
+.sign{flex:none;width:92px;height:92px;background:var(--c);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-weight:900;line-height:1}
+.sign b{font-size:40px}
+.sign small{font-size:13px;margin-top:4px}
+.big .msg{font-size:26px;font-weight:900;line-height:1.3;color:var(--c)}
+.big .dep{font-size:16px;margin-top:4px}
+.big .dep b{font-size:30px;font-weight:900;letter-spacing:.02em;color:var(--ink)}
+.big .dep s{color:var(--sub)}
+.reasons{list-style:none;margin:6px 16px 0;padding:0}
+.reasons li{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:14px;align-items:baseline}
+.reasons li .m{flex:none;width:4.2em;text-align:right;font-weight:900}
+.reasons li .m.p{color:var(--stop)} .reasons li .m.n{color:var(--go)} .reasons li .m.z{color:var(--sub)}
+.reasons li small{color:var(--sub)}
+.wx{display:flex;gap:0;margin:12px 16px 16px;border:1px solid var(--line)}
+.wx div{flex:1;text-align:center;padding:6px 2px;font-size:12px;color:var(--sub)}
+.wx div+div{border-left:1px solid var(--line)}
+.wx b{display:block;font-size:16px;color:var(--ink)}
+.route{background:var(--paper);border:1px solid var(--line);border-radius:4px;margin:20px 0;padding:14px 16px}
+.route h2{margin:0 0 4px;font-size:18px}
+.route .sub{font-size:13px;color:var(--sub);margin:0 0 10px}
+.rows{display:grid;grid-template-columns:3.6em repeat(15,1fr);gap:2px;font-size:11px;align-items:center}
+.rows .rl{color:var(--sub);font-size:11px}
+.rows .c{height:30px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.rows .t{text-align:center;color:var(--sub)}
+.rows .c.past{opacity:.35}
+.rec{margin:12px 0 0;padding:0;list-style:none;font-size:14px}
+.rec li{padding:6px 0;border-top:1px solid var(--line)}
+.rec li b{display:inline-block;min-width:7em}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--sub);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:-1px;background:var(--k)}
+.links{font-size:13px;margin-top:10px}
+.links a{color:var(--navy);font-weight:700;margin-right:14px}
+section.read{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:6px 20px 14px;margin:20px 0}
+section.read h2{font-size:18px;border-left:6px solid var(--sign);padding-left:8px}
+section.read table{border-collapse:collapse;width:100%;font-size:14px}
+section.read th,section.read td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left;vertical-align:top}
+section.read th{white-space:nowrap}
+section.read dt{font-weight:700;margin-top:12px}
+section.read dd{margin:2px 0 0;color:var(--sub);font-size:14px}
+footer{padding:20px 0 40px;font-size:12px;color:var(--sub);text-align:center}
+footer a{color:var(--sub)}
+.hide{display:none!important}
+@media (max-width:480px){
+  .sign{width:76px;height:76px}.sign b{font-size:32px}
+  .big .msg{font-size:21px}.big .dep b{font-size:26px}
+  .rows{grid-template-columns:2.6em repeat(15,1fr)}
+  .rows .c{height:26px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="35" r="21" fill="none" stroke="#f2c230" stroke-width="5"/><path d="M32 35V22M32 35l9 5" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M26 8h12" stroke="#f2c230" stroke-width="5" stroke-linecap="round"/></svg>
+  <div><h1>出発時刻アドバイザー</h1><small>天気・曜日・五十日・連休から「何分早く出るか」</small></div>
+</div></header>
+
+<main class="wrap">
+  <div class="settings">
+    <div><label>いつもの出発時刻<input type="time" id="dep" value="07:30"></label></div>
+    <div><label>いつもの所要時間（分）<input type="number" id="dur" value="30" min="5" max="240" step="5" inputmode="numeric"></label></div>
+    <div><label>移動手段</label><div class="seg" id="mode"><button data-v="car" class="on">車</button><button data-v="train">電車</button><button data-v="bike">自転車</button></div></div>
+    <div><label>場所<select id="city"></select></label></div>
+  </div>
+
+  <div id="status" class="status">天気を読み込んでいます…</div>
+  <div id="cards" class="cards"></div>
+
+  <section class="route" id="route">
+    <h2>外回りの時間帯チェック（車）</h2>
+    <p class="sub">1日の混みやすさの傾向と雨の時間。移動の多い日は、空きやすい時間に長い移動を入れるのがおすすめです。</p>
+    <div class="seg" id="rday" style="max-width:240px;margin-bottom:10px"><button data-v="0" class="on">今日</button><button data-v="1">明日</button></div>
+    <div id="rows" class="rows"></div>
+    <div class="legend"><span style="--k:#2c8a57">空きやすい</span><span style="--k:#9bb04a">ふつう</span><span style="--k:#d9822b">混みやすい</span><span style="--k:#c63d2f">かなり混む</span><span style="--k:#3d6fd1">雨</span></div>
+    <ul class="rec" id="rec"></ul>
+    <div class="links">いまの渋滞は：<a href="https://www.jartic.or.jp/" target="_blank" rel="noopener">JARTIC 道路交通情報</a><a href="https://www.google.com/maps/@35.68,139.69,11z/data=!5m1!1e1" target="_blank" rel="noopener">Google マップの交通状況</a></div>
+  </section>
+
+  <section class="read">
+    <h2>何を見て計算している？</h2>
+    <table>
+      <tr><th>天気</th><td>出発時刻前後の雨・雪・霧・強風（Open-Meteo の予報）。雨は車で所要時間の約15%、強い雨は25%、雪は40%以上を見込みます。冷え込んだ朝に前夜の雨や雪があれば路面凍結として上乗せします。</td></tr>
+      <tr><th>曜日</th><td>月曜の朝はやや混みやすく、金曜の夕方は混みやすい傾向。土日祝の朝は通勤の車が少ない傾向です。</td></tr>
+      <tr><th>五十日</th><td>5日・10日・15日・20日・25日・月末は支払いや配送が集中し、午前中を中心に混みやすい日です（土日祝に当たるときはその前の平日）。</td></tr>
+      <tr><th>連休・季節</th><td>連休の前日の夕方、年末の平日、4月の初めは混みやすく、学校の長期休み（春・夏・冬）の平日朝は空きやすい傾向です。</td></tr>
+    </table>
+    <p style="font-size:13px;color:var(--sub)">リアルタイムの渋滞・事故・運休は入っていません。出発前は上のリンクや鉄道会社の運行情報もあわせて確かめてください。</p>
+  </section>
+
+  <section class="read">
+    <h2>よくある質問</h2>
+    <dl>
+      <dt>五十日（ごとおび）とは？</dt>
+      <dd>毎月5と10のつく日と月末のこと。企業の支払い日や集金・納品が多く、昔から道路が混みやすい日として知られています。</dd>
+      <dt>「いつもの所要時間」は何を入れればいい？</dt>
+      <dd>ふだんの平日（晴れ）にかかる時間です。この時間を基準に、今日の条件で何分増えそうかを足します。</dd>
+      <dt>電車でも早めに出たほうがいい日は？</dt>
+      <dd>強い雨・強風・雪の日は遅れや運転見合わせが起きやすいので、5〜15分の余裕を提案します。駅までの歩きが雨で遅くなる分も少し足しています。</dd>
+      <dt>設定は保存されますか？</dt>
+      <dd>出発時刻・所要時間・移動手段・場所は、このブラウザの中だけに保存されます。どこにも送信していません。</dd>
+    </dl>
+  </section>
+</main>
+
+<footer>
+  天気データ：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（CC BY 4.0）<br>
+  <a href="https://hibitool.com/">日々のツール（hibitool.com）</a> ・ <a href="https://hibitool.com/privacy.html">プライバシーポリシー</a> ・ <a href="https://fukuso.hibitool.com/">きょうの服装予報</a>
+</footer>
+
+<script>
+const PRESETS = [
+  ["札幌",43.0618,141.3545],["仙台",38.2682,140.8694],["新潟",37.9161,139.0364],["東京",35.6895,139.6917],
+  ["横浜",35.4437,139.6380],["厚木",35.4433,139.3626],["名古屋",35.1815,136.9066],["金沢",36.5613,136.6562],["京都",35.0116,135.7681],
+  ["大阪",34.6937,135.5023],["神戸",34.6901,135.1955],["広島",34.3853,132.4553],["高松",34.3428,134.0466],
+  ["福岡",33.5904,130.4017],["鹿児島",31.5966,130.5571],["那覇",26.2124,127.6809]
+];
+const KEY="shuppatsu-settings";
+const pad=n=>String(n).padStart(2,"0");
+const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const WD="日月火水木金土";
+
+/* ---------- 祝日（2000〜2099年の計算） ---------- */
+const HCACHE={};
+function holidays(y){
+  if(HCACHE[y]) return HCACHE[y];
+  const h={};
+  const add=(m,d,n)=>{h[y+"-"+pad(m)+"-"+pad(d)]=n;};
+  const nthMon=(m,n)=>{const f=new Date(y,m-1,1).getDay();return 1+((8-f)%7)+(n-1)*7;};
+  const spring=Math.floor(20.8431+0.242194*(y-1980)-Math.floor((y-1980)/4));
+  const autumn=Math.floor(23.2488+0.242194*(y-1980)-Math.floor((y-1980)/4));
+  add(1,1,"元日");add(1,nthMon(1,2),"成人の日");add(2,11,"建国記念の日");add(2,23,"天皇誕生日");
+  add(3,spring,"春分の日");add(4,29,"昭和の日");add(5,3,"憲法記念日");add(5,4,"みどりの日");add(5,5,"こどもの日");
+  add(7,nthMon(7,3),"海の日");add(8,11,"山の日");add(9,nthMon(9,3),"敬老の日");add(9,autumn,"秋分の日");
+  add(10,nthMon(10,2),"スポーツの日");add(11,3,"文化の日");add(11,23,"勤労感謝の日");
+  // 国民の休日（祝日にはさまれた平日）
+  for(let d=new Date(y,0,2); d.getFullYear()===y; d.setDate(d.getDate()+1)){
+    const p=new Date(d);p.setDate(p.getDate()-1);const n=new Date(d);n.setDate(n.getDate()+1);
+    if(!h[ymd(d)] && d.getDay()!==0 && h[ymd(p)] && h[ymd(n)]) h[ymd(d)]="国民の休日";
+  }
+  // 振替休日
+  Object.keys(h).sort().forEach(k=>{
+    const [yy,mm,dd]=k.split("-").map(Number); const d=new Date(yy,mm-1,dd);
+    if(d.getDay()===0){ const s=new Date(d); do{s.setDate(s.getDate()+1);}while(h[ymd(s)]); h[ymd(s)]="振替休日"; }
+  });
+  return HCACHE[y]=h;
+}
+const holidayName=d=>holidays(d.getFullYear())[ymd(d)]||null;
+const isOff=d=>d.getDay()===0||d.getDay()===6||!!holidayName(d)||(d.getMonth()===11&&d.getDate()>=29)||(d.getMonth()===0&&d.getDate()<=3);
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function isGotobi(d){
+  if(isOff(d)) return false;
+  const y=d.getFullYear(), m=d.getMonth();
+  const last=new Date(y,m+1,0).getDate();
+  for(const c of [5,10,15,20,25,last]){
+    let t=new Date(y,m,c);
+    while(isOff(t)) t=addDays(t,-1);
+    if(ymd(t)===ymd(d)) return c===last?"月末":c+"日";
+  }
+  return false;
+}
+// 連休（土日祝が3日以上続く）の前日か・初日か・最終日か
+function offRun(d){ // dを含む休みの連続
+  if(!isOff(d)) return 0; let a=d,b=d;
+  while(isOff(addDays(a,-1))) a=addDays(a,-1);
+  while(isOff(addDays(b,1))) b=addDays(b,1);
+  return Math.round((b-a)/864e5)+1;
+}
+function isBeforeLongHoliday(d){ const n=addDays(d,1); return !isOff(d) && isOff(n) && offRun(n)>=3; }
+function schoolBreak(d){
+  const m=d.getMonth()+1, x=d.getDate();
+  if((m===3&&x>=25)||(m===4&&x<=5)) return "春休み";
+  if((m===7&&x>=21)||m===8) return "夏休み";
+  if((m===12&&x>=25)||(m===1&&x<=7)) return "冬休み";
+  return null;
+}
+
+/* ---------- 設定 ---------- */
+let S={dep:"07:30",dur:30,mode:"car",city:"東京"};
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){}
+const $=id=>document.getElementById(id);
+const sel=$("city");
+PRESETS.forEach(p=>{const o=document.createElement("option");o.value=p[0];o.textContent=p[0];sel.appendChild(o);});
+if(!PRESETS.find(p=>p[0]===S.city)) S.city="東京";
+sel.value=S.city; $("dep").value=S.dep; $("dur").value=S.dur;
+function setSeg(el,v){[...el.children].forEach(b=>b.classList.toggle("on",b.dataset.v===String(v)));}
+setSeg($("mode"),S.mode);
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+$("mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.mode=b.dataset.v;setSeg($("mode"),S.mode);save();draw();});
+$("dep").addEventListener("change",()=>{if($("dep").value){S.dep=$("dep").value;save();draw();}});
+$("dur").addEventListener("change",()=>{const v=Math.max(5,Math.min(240,parseInt($("dur").value)||30));S.dur=v;$("dur").value=v;save();draw();});
+sel.addEventListener("change",()=>{S.city=sel.value;save();load();});
+let rday=0;
+$("rday").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;rday=+b.dataset.v;setSeg($("rday"),rday);drawRoute();});
+
+let W=null;
+async function load(){
+  const p=PRESETS.find(x=>x[0]===S.city);
+  $("status").classList.remove("hide"); $("status").textContent=p[0]+"の天気を読み込んでいます…";
+  const u="https://api.open-meteo.com/v1/forecast?latitude="+p[1]+"&longitude="+p[2]+
+    "&hourly=temperature_2m,precipitation_probability,precipitation,snowfall,weather_code,wind_speed_10m,visibility"+
+    "&daily=sunrise,sunset&timezone=Asia%2FTokyo&past_days=1&forecast_days=3&wind_speed_unit=ms";
+  try{
+    W=await fetch(u).then(r=>{if(!r.ok)throw 0;return r.json();});
+    W.at={}; W.hourly.time.forEach((t,i)=>W.at[t]=i);
+    $("status").classList.add("hide");
+  }catch(e){ W=null; $("status").textContent="天気を読み込めませんでした。天気を除いた条件（曜日・五十日など）だけで計算しています。"; }
+  draw();
+}
+function hw(d,h){ // その時刻の天気
+  if(!W) return null; const i=W.at[ymd(d)+"T"+pad(h)+":00"]; if(i===undefined) return null;
+  const H=W.hourly;
+  return {T:H.temperature_2m[i],pp:H.precipitation_probability[i]??0,pr:H.precipitation[i]??0,sn:H.snowfall[i]??0,wc:H.weather_code[i],ws:H.wind_speed_10m[i],vis:H.visibility?H.visibility[i]:null,i};
+}
+const isSnowCode=c=>[71,73,75,77,85,86].includes(c);
+
+/* ---------- 計算 ---------- */
+function advise(d){
+  const [hh,mm]=S.dep.split(":").map(Number);
+  const dur=S.dur, mode=S.mode;
+  const R=[]; // [分, 見出し, 説明]
+  const pct=(p,label,why)=>R.push([dur*p/100,label,why]);
+  // 天気：出発の前後（出発時刻〜到着まで＋1時間前）
+  const hs=[]; for(let h=hh-1; h<=hh+Math.ceil(dur/60); h++){ const x=hw(d,Math.max(0,Math.min(23,h))); if(x) hs.push(x); }
+  let wx=null;
+  if(hs.length){
+    const prMax=Math.max(...hs.map(x=>x.pr)), ppMax=Math.max(...hs.map(x=>x.pp)), snow=hs.some(x=>x.sn>0||isSnowCode(x.wc));
+    const wsMax=Math.max(...hs.map(x=>x.ws)), Tmin=Math.min(...hs.map(x=>x.T));
+    const fog=hs.some(x=>x.wc===45||x.wc===48||(x.vis!=null&&x.vis<1000));
+    // 前夜の雨・雪（凍結）
+    let wetNight=false; const base=hs[0].i;
+    for(let k=1;k<=12;k++){ const j=base-k; if(j>=0 && ((W.hourly.precipitation[j]||0)>0.2||(W.hourly.snowfall[j]||0)>0)) wetNight=true; }
+    wx={prMax,ppMax,snow,wsMax,Tmin,fog,wc:hs[Math.min(1,hs.length-1)].wc};
+    if(mode==="car"){
+      if(snow) R.push([Math.max(15,dur*0.4),"雪","雪道・視界不良で大きく遅れやすい。スタッドレスとチェーンの確認を。"]);
+      else if(prMax>=4) pct(25,"強い雨","1時間に"+prMax.toFixed(0)+"mmの雨。車が増えてスピードも落ちます。");
+      else if(prMax>=0.5||ppMax>=50) pct(15,"雨","雨の日は車で出る人が増え、流れが遅くなる傾向。");
+      else if(ppMax>=30) pct(5,"雨かも","降水確率"+ppMax+"%。降り出すと少し混みます。");
+      if(!snow && Tmin<=1 && wetNight) pct(15,"路面凍結","冷え込み（"+Math.round(Tmin)+"℃）と前夜の雨・雪で凍結のおそれ。橋の上・日陰は特に注意。");
+      if(fog) pct(5,"霧","視界が悪くなる予報。ライト点灯・車間距離を。");
+      if(wsMax>=12) pct(5,"強風","最大"+wsMax.toFixed(0)+"m/s。高速や橋で速度規制のことも。");
+    }else if(mode==="train"){
+      if(snow) R.push([15,"雪","雪で遅延・運休が起きやすい。運行情報を確認して早めに。"]);
+      else if(prMax>=10||wsMax>=15) R.push([10,"荒天","強い雨や風で遅れ・見合わせが起きやすい。"]);
+      if(!snow && (prMax>=0.5||ppMax>=50)) R.push([3,"雨","駅まで傘で歩く分と、混雑でのホームの遅れ。"]);
+    }else{
+      if(snow) R.push([20,"雪","自転車は危険です。徒歩かバス・電車への切り替えを。"]);
+      else if(prMax>=0.5||ppMax>=50) R.push([5,"雨","雨具の準備と、ゆっくり走る分。電車・バスへの切り替えも検討を。"]);
+      if(wsMax>=10) R.push([3,"強風","向かい風で時間がかかります。"]);
+      if(!snow && Tmin<=1 && wetNight) R.push([5,"凍結","路面凍結のおそれ。マンホール・白線の上は滑ります。"]);
+    }
+  }
+  // 暦
+  const off=isOff(d), hname=holidayName(d), dow=d.getDay();
+  const morning=hh<10, evening=hh>=16;
+  if(mode==="car"){
+    if(off){
+      if(morning) pct(-15,hname?("祝日（"+hname+"）"):(dow===6?"土曜":"日曜"),"通勤の車が少なく、朝は空きやすい傾向。");
+      else pct(5,"休日の昼","買い物・行楽の車で商業地の周りは混みやすい。");
+      if(offRun(d)>=3 && isOff(addDays(d,-1))===false && hh<12) pct(15,"連休初日","行楽地方面・高速道路の下りが混む傾向。");
+    }else{
+      const gb=isGotobi(d);
+      if(gb) pct(hh<12?10:5,"五十日（"+gb+"）","支払い・配送が集中し、"+(hh<12?"午前中は":"")+"混みやすい日。");
+      if(dow===1&&morning) pct(5,"月曜の朝","週明けは通勤・配送が重なりやすい。");
+      if(dow===5&&evening) pct(10,"金曜の夕方","週末前で帰りの車が増えやすい。");
+      if(isBeforeLongHoliday(d)&&evening) pct(15,"連休前日","連休前の夕方は帰省・行楽で混みやすい。");
+      const m=d.getMonth()+1,x=d.getDate();
+      if(m===12&&x>=20) pct(10,"年末","年末の平日は配送・買い出しで混みやすい。");
+      if(m===4&&x<=12&&morning) pct(5,"4月の初め","新年度で慣れない車・人が増える時期。");
+      const sb=schoolBreak(d);
+      if(sb&&morning) pct(-5,sb,"学校の送迎・通学がなく、朝はやや空きやすい傾向。");
+    }
+  }else if(mode==="train"){
+    if(!off){
+      const m=d.getMonth()+1,x=d.getDate();
+      if(m===4&&x<=12&&morning) R.push([3,"4月の初め","新年度で駅・車内が混雑しやすい。"]);
+      if(dow===1&&morning) R.push([0,"月曜の朝","人身事故などの遅れが比較的多い曜日。運行情報を確認。"]);
+    }else if(morning) R.push([0,hname?("祝日（"+hname+"）"):"休日","休日ダイヤに注意。本数が少ない路線があります。"]);
+  }
+  let total=R.reduce((s,r)=>s+r[0],0);
+  // 5分単位
+  let extra = total>=2.5 ? Math.ceil(total/5)*5 : (total<=-5 ? -Math.floor(-total/5)*5 : 0);
+  if(extra<-10) extra=-10;
+  if(extra>90) extra=90;
+  const depMin=hh*60+mm-extra;
+  const t=((depMin%1440)+1440)%1440;
+  return {extra,R,dep:pad(Math.floor(t/60))+":"+pad(t%60),wx,off,hname};
+}
+const wxIcon=c=>c==null?"-":c<=1?"晴れ":c<=3?"くもり":c===45||c===48?"霧":c<=67||(c>=80&&c<=82)?"雨":isSnowCode(c)?"雪":c>=95?"雷雨":"くもり";
+
+function draw(){
+  const now=new Date();
+  const [hh,mm]=S.dep.split(":").map(Number);
+  const passed = now.getHours()*60+now.getMinutes() > hh*60+mm+30;
+  const order = passed?[1,0]:[0,1];
+  $("cards").innerHTML = order.map(k=>{
+    const d=addDays(now,k); const a=advise(d);
+    let c,big,sm,msg;
+    if(a.extra>0){ c=a.extra>=20?"var(--stop)":"var(--warn)"; big=a.extra; sm="分早め"; msg="いつもより"+a.extra+"分早めに"; }
+    else if(a.extra<0){ c="var(--go)"; big=-a.extra; sm="分ゆっくり"; msg="いつもより空きやすい日"; }
+    else { c="var(--go)"; big="OK"; sm="いつも通り"; msg=a.R.some(r=>r[0]>=1)?"ほぼいつも通りでOK":"いつも通りでOK"; }
+    const rs=a.R.filter(r=>Math.abs(r[0])>=0.5||r[0]===0);
+    const lis = rs.length? rs.map(r=>{
+      const v=Math.round(r[0]); const cls=v>0?"p":v<0?"n":"z";
+      return '<li><span class="m '+cls+'">'+(v>0?"+"+v+"分":v<0?v+"分":"注意")+'</span><span><b>'+r[1]+'</b>　<small>'+r[2]+'</small></span></li>';
+    }).join("") : '<li><span class="m z">―</span><span>天気も暦もふだん通りの日です。</span></li>';
+    const w=a.wx;
+    const wxh = w? '<div class="wx"><div>出発ごろ<b>'+wxIcon(w.wc)+'</b></div><div>降水確率<b>'+w.ppMax+'%</b></div><div>気温<b>'+Math.round(w.Tmin)+'℃</b></div><div>風<b>'+w.wsMax.toFixed(0)+'m/s</b></div></div>':'<div style="height:12px"></div>';
+    const modeName={car:"車",train:"電車",bike:"自転車"}[S.mode];
+    return '<article class="card" style="--c:'+c+'"><div class="head"><b>'+(k===0?"今日":"明日")+'　'+(d.getMonth()+1)+'/'+d.getDate()+'（'+WD[d.getDay()]+'）'+(a.hname?'　'+a.hname:'')+'</b><span class="tag">'+modeName+'・'+S.dur+'分</span></div>'+
+      '<div class="big"><div class="sign"><b>'+big+'</b><small>'+sm+'</small></div><div><div class="msg">'+msg+'</div>'+
+      '<div class="dep">'+(a.extra!==0?'<b>'+a.dep+'</b> に出発　<s>'+S.dep+'</s>':'<b>'+S.dep+'</b> に出発')+'</div></div></div>'+
+      '<ul class="reasons">'+lis+'</ul>'+wxh+'</article>';
+  }).join("");
+  $("route").classList.toggle("hide", S.mode!=="car");
+  drawRoute();
+}
+
+/* ---------- 外回り：時間帯ごとの混みやすさ ---------- */
+function congestion(d,h){
+  const off=isOff(d), dow=d.getDay();
+  let v;
+  if(!off){
+    v=[1,3,4,3,2,2,2,2,2,2,3,4,4,3,2][h-6];   // 6時〜20時（朝7〜9時・夕方17〜19時が山）
+    const gb=isGotobi(d); if(gb && h>=8 && h<=11) v+=1;
+    if(dow===5 && h>=16 && h<=19) v+=1;
+    if(isBeforeLongHoliday(d) && h>=16) v+=1;
+    if(schoolBreak(d) && h>=7 && h<=8) v-=1;
+    if(d.getMonth()===11 && d.getDate()>=20) v+=1;
+  }else{
+    v=[1,1,1,1,2,3,3,3,3,3,3,3,2,2,1][h-6];
+    if(offRun(d)>=3) v+=1;
+  }
+  const x=hw(d,h); let rain=false;
+  if(x && (x.pr>=0.5||x.pp>=50||x.sn>0)){ v+=1; rain=true; }
+  return {v:Math.max(1,Math.min(5,v)),rain,x};
+}
+function drawRoute(){
+  if(S.mode!=="car") return;
+  const now=new Date(); const d=addDays(now,rday);
+  const cols=["","#2c8a57","#9bb04a","#d9822b","#c63d2f","#8e2a20"];
+  const lbl=["","空","普","混","混","渋"];
+  let h1='<span class="rl">時刻</span>', h2='<span class="rl">混み</span>', h3='<span class="rl">天気</span>';
+  const data=[];
+  for(let h=6;h<=20;h++){
+    const c=congestion(d,h); data.push([h,c]);
+    const past=rday===0&&h<now.getHours();
+    h1+='<span class="t">'+h+'</span>';
+    h2+='<div class="c'+(past?" past":"")+'" style="background:'+cols[c.v]+'" title="'+h+'時台">'+lbl[c.v]+'</div>';
+    h3+='<div class="c'+(past?" past":"")+'" style="background:'+(c.rain?"#3d6fd1":"#e3e7ee")+';color:'+(c.rain?"#fff":"#5b6577")+'">'+(c.x?(c.rain?"雨":Math.round(c.x.T)+"°"):"")+'</div>';
+  }
+  $("rows").innerHTML=h1+h2+h3;
+  // おすすめ
+  const runs=[]; let cur=null;
+  for(const [h,c] of data){ const good=c.v<=2&&!c.rain&&h>=8&&h<=18&&!(rday===0&&h<now.getHours()); if(good){if(!cur)cur=[h,h];cur[1]=h;}else{if(cur)runs.push(cur);cur=null;} }
+  if(cur) runs.push(cur);
+  const rec=[];
+  rec.push('<li><b>移動しやすい</b>'+(runs.length?runs.map(r=>r[0]+"〜"+(r[1]+1)+"時").join("、"):"目立って空く時間はありません")+'</li>');
+  const bad=data.filter(([h,c])=>c.v>=4).map(([h])=>h);
+  if(bad.length) rec.push('<li><b>混みやすい</b>'+groupHours(bad)+'</li>');
+  const rainH=data.filter(([h,c])=>c.rain).map(([h])=>h);
+  if(rainH.length) rec.push('<li><b>雨の時間</b>'+groupHours(rainH)+'　車の乗り降りが多い外回りは、この前後に屋内の用事を。</li>');
+  const gb=isGotobi(d); if(gb) rec.push('<li><b>五十日</b>'+gb+'の扱いの日。銀行・取引先まわりの駐車場も混みやすい日です。</li>');
+  if(W&&W.daily){ const i=W.daily.time.indexOf(ymd(d)); if(i>=0){ const ss=W.daily.sunset[i].slice(11,16); rec.push('<li><b>日の入り '+ss+'</b>前後30分は見えにくく、歩行者の事故が多い時間。早めのライト点灯を。</li>'); } }
+  $("rec").innerHTML=rec.join("");
+}
+function groupHours(a){ const out=[]; let s=a[0],p=a[0]; for(let i=1;i<=a.length;i++){ if(a[i]===p+1){p=a[i];continue;} out.push(s+"〜"+(p+1)+"時"); s=a[i];p=a[i]; } return out.join("、"); }
+
+load();
+</script>
+</body>
+</html>
