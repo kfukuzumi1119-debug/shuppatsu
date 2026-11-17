@@ -17,6 +17,10 @@
 <link rel="icon" href="favicon-192.png" sizes="192x192" type="image/png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="出発時刻">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -94,6 +98,16 @@ section.read dd{margin:2px 0 0;color:var(--sub);font-size:14px}
 footer{padding:20px 0 40px;font-size:12px;color:var(--sub);text-align:center}
 footer a{color:var(--sub)}
 .hide{display:none!important}
+.pbox{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:4px 16px 14px;margin:20px 0}
+.pbox h2{font-size:18px;margin:12px 0 4px}
+.pbox p{margin:4px 0;font-size:14px}
+.prow{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:14px}
+.prow select{font:inherit;font-size:16px;padding:5px 8px;border:1px solid #b9c0cc;border-radius:4px;background:#fff;color:var(--ink)}
+.prow input[type=checkbox]{width:18px;height:18px;vertical-align:-3px}
+.pbtn{font:inherit;font-size:14px;padding:8px 16px;border:1px solid #b9c0cc;border-radius:4px;background:#fff;color:var(--ink);cursor:pointer}
+.pbtn.main{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700}
+.pmsg{color:var(--sub);font-size:13px!important;min-height:1em}
+.pios{font-size:13px;background:#fff6dc;border:1px solid #ecd9a0;padding:8px 12px;border-radius:4px;margin-top:10px}
 @media (max-width:480px){
   .sign{width:76px;height:76px}.sign b{font-size:32px}
   .big .msg{font-size:21px}.big .dep b{font-size:26px}
@@ -118,6 +132,15 @@ footer a{color:var(--sub)}
 
   <div id="status" class="status">天気を読み込んでいます…</div>
   <div id="cards" class="cards"></div>
+
+  <section class="pbox" id="pushBox">
+    <h2>毎朝の通知</h2>
+    <p id="pushState"></p>
+    <div class="prow"><label>知らせるのは <select id="pushLead"><option value="30">出発の30分前</option><option value="45">出発の45分前</option><option value="60" selected>出発の1時間前</option><option value="90">出発の1時間30分前</option><option value="120">出発の2時間前</option></select></label><label><input type="checkbox" id="pushWd" checked> 平日だけ</label></div>
+    <div class="prow"><button class="pbtn main" id="pushOn">通知をオンにする</button><button class="pbtn" id="pushTest">テスト通知</button><button class="pbtn" id="pushOff">オフにする</button></div>
+    <p class="pmsg" id="pushMsg"></p>
+    <div class="pios hide" id="pushIos"><b>iPhone・iPad の場合</b>：Safari の共有ボタン（□に↑）→「ホーム画面に追加」で追加し、ホーム画面のアイコンから開くと通知をオンにできます（iOS 16.4 以降）。</div>
+  </section>
 
   <section class="route" id="route">
     <h2>外回りの時間帯チェック（車）</h2>
@@ -237,7 +260,7 @@ if(!PRESETS.find(p=>p[0]===S.city)) S.city="東京";
 sel.value=S.city; $("dep").value=S.dep; $("dur").value=S.dur;
 function setSeg(el,v){[...el.children].forEach(b=>b.classList.toggle("on",b.dataset.v===String(v)));}
 setSeg($("mode"),S.mode);
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} if(window.pushSync) pushSync();}
 $("mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.mode=b.dataset.v;setSeg($("mode"),S.mode);save();draw();});
 $("dep").addEventListener("change",()=>{if($("dep").value){S.dep=$("dep").value;save();draw();}});
 $("dur").addEventListener("change",()=>{const v=Math.max(5,Math.min(240,parseInt($("dur").value)||30));S.dur=v;$("dur").value=v;save();draw();});
@@ -419,6 +442,17 @@ function drawRoute(){
 function groupHours(a){ const out=[]; let s=a[0],p=a[0]; for(let i=1;i<=a.length;i++){ if(a[i]===p+1){p=a[i];continue;} out.push(s+"〜"+(p+1)+"時"); s=a[i];p=a[i]; } return out.join("、"); }
 
 load();
+
+/* 通知の設定（共通部品 push-client.js が使う） */
+const PUSH_APP="shuppatsu";
+try{ const v=JSON.parse(localStorage.getItem("shuppatsu-push-opt")||"null"); if(v){ if([...$("pushLead").options].some(o=>o.value===String(v.lead))) $("pushLead").value=v.lead; $("pushWd").checked=v.wd!==false; } }catch(e){}
+function pushMinute(){ const [h,m]=S.dep.split(":").map(Number); return ((h*60+m-(+$("pushLead").value))%1440+1440)%1440; }
+function pushPayload(){ const p=PRESETS.find(x=>x[0]===S.city)||PRESETS[3]; const m=pushMinute(); return {minute:m, settings:{minute:m, data:{dep:S.dep,dur:S.dur,mode:S.mode}, lat:p[1], lon:p[2], name:p[0], weekdays:$("pushWd").checked}}; }
+function pushDesc(){ const m=pushMinute(); return ($("pushWd").checked?"平日の":"毎日")+"朝 "+Math.floor(m/60)+":"+pad(m%60)+" に、その日の天気と暦から「今日は10分早めに：7:20 出発」のようにお知らせします。"; }
+function pushReady(){ return ""; }
+function pushOpt(){ try{localStorage.setItem("shuppatsu-push-opt",JSON.stringify({lead:+$("pushLead").value,wd:$("pushWd").checked}));}catch(e){} pushSync(); }
+$("pushLead").onchange=pushOpt; $("pushWd").onchange=pushOpt;
 </script>
+<script src="push-client.js"></script>
 </body>
 </html>
