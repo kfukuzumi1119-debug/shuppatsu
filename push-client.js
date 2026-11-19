@@ -7,7 +7,7 @@ let pushOn = false;
 try { pushOn = localStorage.getItem(PUSH_APP + "-push") === "1"; } catch (e) {}
 function pushU8(s) { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; const b = atob(s); return Uint8Array.from(b, c => c.charCodeAt(0)); }
 async function pushSub(create) {
-  const reg = await navigator.serviceWorker.register("sw.js");
+  const reg = await navigator.serviceWorker.register(window.PUSH_SW || "sw.js");  // 都市ページなどでは window.PUSH_SW="../sw.js"
   await navigator.serviceWorker.ready;
   let s = await reg.pushManager.getSubscription();
   if (!s && create) {
