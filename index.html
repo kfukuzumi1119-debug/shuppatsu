@@ -164,7 +164,7 @@ footer a{color:var(--sub)}
   <section class="read">
     <h2>何を見て計算している？</h2>
     <table>
-      <tr><th>天気</th><td>出発時刻前後の雨・雪・霧・強風（Open-Meteo の予報）。雨は車で所要時間の約15%、強い雨は25%、雪は40%以上を見込みます。冷え込んだ朝に前夜の雨や雪があれば路面凍結として上乗せします。</td></tr>
+      <tr><th>天気</th><td>出発時刻前後の雨・雪・霧・強風（MET Norway の予報）。雨は車で所要時間の約15%、強い雨は25%、雪は40%以上を見込みます。冷え込んだ朝に前夜の雨や雪があれば路面凍結として上乗せします。</td></tr>
       <tr><th>曜日</th><td>月曜の朝はやや混みやすく、金曜の夕方は混みやすい傾向。土日祝の朝は通勤の車が少ない傾向です。</td></tr>
       <tr><th>五十日</th><td>5日・10日・15日・20日・25日・月末は支払いや配送が集中し、午前中を中心に混みやすい日です（土日祝に当たるときはその前の平日）。</td></tr>
       <tr><th>連休・季節</th><td>連休の前日の夕方、年末の平日、4月の初めは混みやすく、学校の長期休み（春・夏・冬）の平日朝は空きやすい傾向です。</td></tr>
@@ -204,7 +204,7 @@ footer a{color:var(--sub)}
 </main>
 
 <footer>
-  天気データ：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（CC BY 4.0）<br>
+  天気データ：<a href="https://www.met.no/" target="_blank" rel="noopener">MET Norway</a>（ノルウェー気象研究所、CC BY 4.0）の予報をもとに hibitool が計算<br>
   <a href="https://hibitool.com/">日々のツール（hibitool.com）</a> ・ <a href="https://hibitool.com/privacy.html">プライバシーポリシー</a> ・ <a href="https://fukuso.hibitool.com/">きょうの服装予報</a>
 </footer>
 
@@ -297,9 +297,8 @@ let W=null;
 async function load(){
   const p=PRESETS.find(x=>x[0]===S.city);
   $("status").classList.remove("hide"); $("status").textContent=p[0]+"の天気を読み込んでいます…";
-  const u="https://api.open-meteo.com/v1/forecast?latitude="+p[1]+"&longitude="+p[2]+
-    "&hourly=temperature_2m,precipitation_probability,precipitation,snowfall,weather_code,wind_speed_10m,visibility"+
-    "&daily=sunrise,sunset&timezone=Asia%2FTokyo&past_days=1&forecast_days=3&wind_speed_unit=ms";
+  // 天気は MET Norway の予報を hibitool の中継（push.hibitool.com/wx）で受け取る
+  const u="https://push.hibitool.com/wx?lat="+p[1]+"&lon="+p[2]+"&past_days=1&forecast_days=3";
   try{
     W=await fetch(u).then(r=>{if(!r.ok)throw 0;return r.json();});
     W.at={}; W.hourly.time.forEach((t,i)=>W.at[t]=i);
@@ -308,7 +307,7 @@ async function load(){
   draw();
 }
 function hw(d,h){ // その時刻の天気
-  if(!W) return null; const i=W.at[ymd(d)+"T"+pad(h)+":00"]; if(i===undefined) return null;
+  if(!W) return null; const i=W.at[ymd(d)+"T"+pad(h)+":00"]; if(i===undefined||W.hourly.temperature_2m[i]==null) return null;
   const H=W.hourly;
   return {T:H.temperature_2m[i],pp:H.precipitation_probability[i]??0,pr:H.precipitation[i]??0,sn:H.snowfall[i]??0,wc:H.weather_code[i],ws:H.wind_speed_10m[i],vis:H.visibility?H.visibility[i]:null,i};
 }
